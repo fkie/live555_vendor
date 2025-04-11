@@ -2,7 +2,7 @@
 <package format="2">
   <name>live555_vendor</name>
   <version>2024.10.24</version>
-  <description>live555 library</description>
+  <description>LIVE555.COM media server and library</description>
   <license>LGPL-3.0-or-later</license>
   <maintainer email="timo.roehling@fkie.fraunhofer.de">Timo Röhling</maintainer>
 
@@ -13,4 +13,3 @@
     <build_type>cmake</build_type>
   </export>
 </package>
-

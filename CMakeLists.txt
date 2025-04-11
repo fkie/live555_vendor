@@ -10,7 +10,9 @@ include(GNUInstallDirs)
 
 # Options
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
-option(LIVE555_ALLOW_SERVER_PORT_REUSE "Allow reuse of existing ports (not recommended)" OFF)
+option(LIVE555_ALLOW_SERVER_PORT_REUSE
+       "Allow reuse of existing ports (not recommended)" OFF
+)
 
 # Dependencies
 find_package(OpenSSL QUIET)
@@ -22,11 +24,26 @@ endif()
 
 # Targets
 add_library(
-    BasicUsageEnvironment
-    live555/UsageEnvironment/HashTable.cpp
-    live555/UsageEnvironment/strDup.cpp
+    UsageEnvironment
+    live555/UsageEnvironment/HashTable.cpp live555/UsageEnvironment/strDup.cpp
     live555/UsageEnvironment/UsageEnvironment.cpp
     live555/BasicUsageEnvironment/BasicHashTable.cpp
+)
+target_compile_definitions(
+    UsageEnvironment PRIVATE _LARGEFILE_SOURCE=1 _FILE_OFFSET_BITS=64
+)
+target_include_directories(
+    UsageEnvironment
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/live555/UsageEnvironment/include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/live555>
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/live555/groupsock/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/live555/BasicUsageEnvironment/include
+)
+set_target_properties(UsageEnvironment PROPERTIES SOVERSION ${PROJECT_VERSION})
+
+add_library(
+    BasicUsageEnvironment
     live555/BasicUsageEnvironment/BasicTaskScheduler.cpp
     live555/BasicUsageEnvironment/BasicTaskScheduler0.cpp
     live555/BasicUsageEnvironment/BasicUsageEnvironment.cpp
@@ -40,11 +57,11 @@ target_compile_definitions(
 target_include_directories(
     BasicUsageEnvironment
     PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/live555/UsageEnvironment/include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/live555/BasicUsageEnvironment/include>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/live555>
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/live555/groupsock/include
 )
+target_link_libraries(BasicUsageEnvironment PUBLIC UsageEnvironment)
 set_target_properties(
     BasicUsageEnvironment PROPERTIES SOVERSION ${PROJECT_VERSION}
 )
@@ -69,7 +86,7 @@ target_include_directories(
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/live555/groupsock/include>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/live555>
 )
-target_link_libraries(groupsock PUBLIC BasicUsageEnvironment)
+target_link_libraries(groupsock PUBLIC UsageEnvironment)
 set_target_properties(groupsock PROPERTIES SOVERSION ${PROJECT_VERSION})
 add_library(live555::groupsock ALIAS groupsock)
 add_library(
@@ -282,12 +299,9 @@ add_library(
 )
 target_compile_definitions(
     liveMedia
-    PRIVATE
-        SOCKLEN_T=socklen_t
-        _LARGEFILE_SOURCE=1
-        _FILE_OFFSET_BITS=64
-        $<$<NOT:$<TARGET_EXISTS:OpenSSL::SSL>>:NO_OPENSSL=1>
-        $<$<BOOL:LIVE555_ALLOW_SERVER_PORT_REUSE>:ALLOW_SERVER_PORT_REUSE=1>
+    PRIVATE SOCKLEN_T=socklen_t _LARGEFILE_SOURCE=1 _FILE_OFFSET_BITS=64
+            $<$<NOT:$<TARGET_EXISTS:OpenSSL::SSL>>:NO_OPENSSL=1>
+            $<$<BOOL:LIVE555_ALLOW_SERVER_PORT_REUSE>:ALLOW_SERVER_PORT_REUSE=1>
 )
 target_include_directories(
     liveMedia
@@ -306,20 +320,27 @@ target_link_libraries(live555ProxyServer PRIVATE liveMedia)
 add_executable(live555HLSProxy live555/hlsProxy/live555HLSProxy.cpp)
 target_link_libraries(live555HLSProxy PRIVATE liveMedia)
 
+add_executable(
+    live555MediaServer live555/mediaServer/DynamicRTSPServer.cpp
+                       live555/mediaServer/live555MediaServer.cpp
+)
+target_link_libraries(live555MediaServer PRIVATE liveMedia)
+
 # Packaging
 configure_package_config_file(
     live555Config.cmake.in live555Config.cmake
     INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/live555
-    NO_SET_AND_CHECK_MACRO
-    NO_CHECK_REQUIRED_COMPONENTS_MACRO
+    NO_SET_AND_CHECK_MACRO NO_CHECK_REQUIRED_COMPONENTS_MACRO
 )
 write_basic_package_version_file(
     live555ConfigVersion.cmake COMPATIBILITY ExactVersion
 )
 
 # Installation
-install(TARGETS BasicUsageEnvironment groupsock liveMedia EXPORT live555Targets)
-install(TARGETS live555ProxyServer live555HLSProxy)
+install(TARGETS UsageEnvironment BasicUsageEnvironment groupsock liveMedia
+        EXPORT live555Targets
+)
+install(TARGETS live555ProxyServer live555HLSProxy live555MediaServer)
 install(
     DIRECTORY live555/UsageEnvironment/include/
               live555/BasicUsageEnvironment/include/ live555/liveMedia/include/
