@@ -1,11 +1,14 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>live555_vendor</name>
-  <version>0.0.20241024</version>
-  <license>LGPL-3.0-only</license>
+  <version>2024.10.24</version>
+  <description>live555 library</description>
+  <license>LGPL-3.0-or-later</license>
   <maintainer email="timo.roehling@fkie.fraunhofer.de">Timo Röhling</maintainer>
 
   <buildtool_depend>cmake</buildtool_depend>
+  <build_depend>libssl-dev</build_depend>
+
   <export>
     <build_type>cmake</build_type>
   </export>
