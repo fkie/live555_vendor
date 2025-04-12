@@ -1,5 +1,5 @@
-LIVE555.COM Media server and library
-====================================
+LIVE555 - multimedia RTSP streaming library
+===========================================
 
 This code forms a set of C++ libraries for multimedia streaming, using open
 standard protocols (RTP/RTCP, RTSP, SIP). These libraries - which can be

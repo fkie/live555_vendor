@@ -1,8 +1,27 @@
+###############################################################################
+# This library is free software; you can redistribute it and/or modify it under
+# the terms of the GNU Lesser General Public License as published by the
+# Free Software Foundation; either version 3 of the License, or (at your
+# option) any later version. (See <http://www.gnu.org/copyleft/lesser.html>.)
+#
+# This library is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for
+# more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this library; if not, see <https://www.gnu.org/licenses>.
+###############################################################################
+
+# CMake Build configuration Copyright 2025 Timo Röhling SPDX-License-Identifier:
+# LGPL-3.0-or-later
+
 cmake_minimum_required(VERSION 3.13...3.28)
 project(
     live555_vendor
     VERSION 2024.10.24
     LANGUAGES C CXX
+    DESCRIPTION "multimedia RTSP streaming library"
 )
 
 include(CMakePackageConfigHelpers)
@@ -15,7 +34,7 @@ option(LIVE555_ALLOW_SERVER_PORT_REUSE
 )
 
 # Dependencies
-find_package(OpenSSL QUIET)
+find_package(OpenSSL)
 if(TARGET OpenSSL::SSL)
     set(LIVE555_OPENSSL_SUPPORT YES)
 else()
@@ -36,7 +55,7 @@ target_include_directories(
     UsageEnvironment
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/live555/UsageEnvironment/include>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/live555>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/live555/UsageEnvironment>
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/live555/groupsock/include
             ${CMAKE_CURRENT_SOURCE_DIR}/live555/BasicUsageEnvironment/include
 )
@@ -58,7 +77,7 @@ target_include_directories(
     BasicUsageEnvironment
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/live555/BasicUsageEnvironment/include>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/live555>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/live555/BasicUsageEnvironment>
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/live555/groupsock/include
 )
 target_link_libraries(BasicUsageEnvironment PUBLIC UsageEnvironment)
@@ -84,7 +103,7 @@ target_include_directories(
     groupsock
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/live555/groupsock/include>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/live555>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/live555/groupsock>
 )
 target_link_libraries(groupsock PUBLIC UsageEnvironment)
 set_target_properties(groupsock PROPERTIES SOVERSION ${PROJECT_VERSION})
@@ -307,7 +326,7 @@ target_include_directories(
     liveMedia
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/live555/liveMedia/include>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/live555>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/live555/liveMedia>
 )
 target_link_libraries(liveMedia PUBLIC groupsock BasicUsageEnvironment)
 target_link_libraries(liveMedia PRIVATE $<TARGET_NAME_IF_EXISTS:OpenSSL::SSL>)
@@ -335,6 +354,7 @@ configure_package_config_file(
 write_basic_package_version_file(
     live555ConfigVersion.cmake COMPATIBILITY ExactVersion
 )
+configure_file(live555.pc.in live555.pc @ONLY)
 
 # Installation
 install(TARGETS UsageEnvironment BasicUsageEnvironment groupsock liveMedia
@@ -343,12 +363,22 @@ install(TARGETS UsageEnvironment BasicUsageEnvironment groupsock liveMedia
 install(TARGETS live555ProxyServer live555HLSProxy live555MediaServer)
 install(
     DIRECTORY live555/UsageEnvironment/include/
-              live555/BasicUsageEnvironment/include/ live555/liveMedia/include/
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/live555
-)
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/live555/UsageEnvironment)
+install(
+    DIRECTORY live555/BasicUsageEnvironment/include/
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/live555/BasicUsageEnvironment)
+install(
+    DIRECTORY live555/groupsock/include/
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/live555/groupsock)
+install(
+    DIRECTORY live555/liveMedia/include/
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/live555/liveMedia)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/live555Config.cmake
               ${CMAKE_CURRENT_BINARY_DIR}/live555ConfigVersion.cmake
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/live555
+)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/live555.pc
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )
 install(
     EXPORT live555Targets
