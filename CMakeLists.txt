@@ -9,7 +9,7 @@
 cmake_minimum_required(VERSION 3.13...3.28)
 project(
     live555_vendor
-    VERSION 2024.10.24
+    VERSION 2025.1.17
     LANGUAGES C CXX
     DESCRIPTION "multimedia RTSP streaming library"
 )
@@ -173,8 +173,6 @@ add_library(
     live555/liveMedia/JPEGVideoRTPSource.cpp
     live555/liveMedia/JPEGVideoSource.cpp
     live555/liveMedia/Locale.cpp
-    live555/liveMedia/Makefile.head
-    live555/liveMedia/Makefile.tail
     live555/liveMedia/MatroskaDemuxedTrack.cpp
     live555/liveMedia/MatroskaDemuxedTrack.hh
     live555/liveMedia/MatroskaFile.cpp

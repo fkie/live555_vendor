@@ -1,13 +1,12 @@
 <?xml version="1.0"?>
 <package format="3">
   <name>live555_vendor</name>
-  <version>2024.10.24</version>
+  <version>2025.1.17</version>
   <description>multimedia RTSP streaming library</description>
   <license>LGPL-3.0-or-later</license>
   <license>FSFAP</license>
   <maintainer email="timo.roehling@fkie.fraunhofer.de">Timo Röhling</maintainer>
   <url type="website">http://www.live555.com/liveMedia/</url>
-  <url type="repository">https://github.com/rgaufman/live555</url>
 
   <buildtool_depend>cmake</buildtool_depend>
   <build_depend>libssl-dev</build_depend>

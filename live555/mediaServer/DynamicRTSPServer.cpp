@@ -13,7 +13,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 **********/
-// Copyright (c) 1996-2024, Live Networks, Inc.  All rights reserved
+// Copyright (c) 1996-2025, Live Networks, Inc.  All rights reserved
 // A subclass of "RTSPServer" that creates "ServerMediaSession"s on demand,
 // based on whether or not the specified stream name exists as a file
 // Implementation
@@ -68,15 +68,15 @@ void DynamicRTSPServer
 
     sms = NULL;
   } else {
-    if (smsExists && isFirstLookupInSession) {
+    if (smsExists && isFirstLookupInSession) { 
       // Remove the existing "ServerMediaSession" and create a new one, in case the underlying
       // file has changed in some way:
-      removeServerMediaSession(sms);
+      removeServerMediaSession(sms); 
       sms = NULL;
-    }
+    } 
 
     if (sms == NULL) {
-      sms = createNewSMS(envir(), streamName, fid);
+      sms = createNewSMS(envir(), streamName, fid); 
       addServerMediaSession(sms);
     }
 
@@ -91,7 +91,7 @@ void DynamicRTSPServer
 // Special code for handling Matroska files:
 struct MatroskaDemuxCreationState {
   MatroskaFileServerDemux* demux;
-  char watchVariable;
+  EventLoopWatchVariable watchVariable;
 };
 static void onMatroskaDemuxCreation(MatroskaFileServerDemux* newDemux, void* clientData) {
   MatroskaDemuxCreationState* creationState = (MatroskaDemuxCreationState*)clientData;
@@ -103,7 +103,7 @@ static void onMatroskaDemuxCreation(MatroskaFileServerDemux* newDemux, void* cli
 // Special code for handling Ogg files:
 struct OggDemuxCreationState {
   OggFileServerDemux* demux;
-  char watchVariable;
+  EventLoopWatchVariable watchVariable;
 };
 static void onOggDemuxCreation(OggFileServerDemux* newDemux, void* clientData) {
   OggDemuxCreationState* creationState = (OggDemuxCreationState*)clientData;
@@ -145,12 +145,12 @@ static ServerMediaSession* createNewSMS(UsageEnvironment& env,
   } else if (strcmp(extension, ".264") == 0) {
     // Assumed to be a H.264 Video Elementary Stream file:
     NEW_SMS("H.264 Video");
-    OutPacketBuffer::maxSize = 2000000; // allow for some possibly large H.264 frames
+    OutPacketBuffer::maxSize = 100000; // allow for some possibly large H.264 frames
     sms->addSubsession(H264VideoFileServerMediaSubsession::createNew(env, fileName, reuseSource));
   } else if (strcmp(extension, ".265") == 0) {
     // Assumed to be a H.265 Video Elementary Stream file:
     NEW_SMS("H.265 Video");
-    OutPacketBuffer::maxSize = 2000000; // allow for some possibly large H.265 frames
+    OutPacketBuffer::maxSize = 100000; // allow for some possibly large H.265 frames
     sms->addSubsession(H265VideoFileServerMediaSubsession::createNew(env, fileName, reuseSource));
   } else if (strcmp(extension, ".mp3") == 0) {
     // Assumed to be a MPEG-1 or 2 Audio file:
@@ -206,13 +206,13 @@ static ServerMediaSession* createNewSMS(UsageEnvironment& env,
   } else if (strcmp(extension, ".dv") == 0) {
     // Assumed to be a DV Video file
     // First, make sure that the RTPSinks' buffers will be large enough to handle the huge size of DV frames (as big as 288000).
-    OutPacketBuffer::maxSize = 2000000;
+    OutPacketBuffer::maxSize = 300000;
 
     NEW_SMS("DV Video");
     sms->addSubsession(DVVideoFileServerMediaSubsession::createNew(env, fileName, reuseSource));
   } else if (strcmp(extension, ".mkv") == 0 || strcmp(extension, ".webm") == 0) {
     // Assumed to be a Matroska file (note that WebM ('.webm') files are also Matroska files)
-    OutPacketBuffer::maxSize = 2000000; // allow for some possibly large VP8 or VP9 frames
+    OutPacketBuffer::maxSize = 300000; // allow for some possibly large VP8 or VP9 frames
     NEW_SMS("Matroska video+audio+(optional)subtitles");
 
     // Create a Matroska file server demultiplexor for the specified file.
