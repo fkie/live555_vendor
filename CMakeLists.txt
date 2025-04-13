@@ -10,11 +10,14 @@
 # more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with this library; if not, see <https://www.gnu.org/licenses>.
+# along with this library; if not, see <http://www.gnu.org/licenses>.
 ###############################################################################
 
-# CMake Build configuration Copyright 2025 Timo Röhling SPDX-License-Identifier:
-# LGPL-3.0-or-later
+# ~~~
+# CMake Build configuration
+# Copyright 2025 Timo Röhling
+# SPDX-License-Identifier: LGPL-3.0-or-later
+# ~~~
 
 cmake_minimum_required(VERSION 3.13...3.28)
 project(
@@ -333,17 +336,17 @@ target_link_libraries(liveMedia PRIVATE $<TARGET_NAME_IF_EXISTS:OpenSSL::SSL>)
 set_target_properties(liveMedia PROPERTIES SOVERSION ${PROJECT_VERSION})
 add_library(live555::liveMedia ALIAS liveMedia)
 
-add_executable(live555ProxyServer live555/proxyServer/live555ProxyServer.cpp)
-target_link_libraries(live555ProxyServer PRIVATE liveMedia)
+add_executable(live555proxyServer live555/proxyServer/live555ProxyServer.cpp)
+target_link_libraries(live555proxyServer PRIVATE liveMedia)
 
-add_executable(live555HLSProxy live555/hlsProxy/live555HLSProxy.cpp)
-target_link_libraries(live555HLSProxy PRIVATE liveMedia)
+add_executable(live555hlsProxy live555/hlsProxy/live555HLSProxy.cpp)
+target_link_libraries(live555hlsProxy PRIVATE liveMedia)
 
 add_executable(
-    live555MediaServer live555/mediaServer/DynamicRTSPServer.cpp
+    live555mediaServer live555/mediaServer/DynamicRTSPServer.cpp
                        live555/mediaServer/live555MediaServer.cpp
 )
-target_link_libraries(live555MediaServer PRIVATE liveMedia)
+target_link_libraries(live555mediaServer PRIVATE liveMedia)
 
 # Packaging
 configure_package_config_file(
@@ -360,19 +363,19 @@ configure_file(live555.pc.in live555.pc @ONLY)
 install(TARGETS UsageEnvironment BasicUsageEnvironment groupsock liveMedia
         EXPORT live555Targets
 )
-install(TARGETS live555ProxyServer live555HLSProxy live555MediaServer)
-install(
-    DIRECTORY live555/UsageEnvironment/include/
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/live555/UsageEnvironment)
-install(
-    DIRECTORY live555/BasicUsageEnvironment/include/
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/live555/BasicUsageEnvironment)
-install(
-    DIRECTORY live555/groupsock/include/
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/live555/groupsock)
-install(
-    DIRECTORY live555/liveMedia/include/
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/live555/liveMedia)
+install(TARGETS live555proxyServer live555hlsProxy live555mediaServer)
+install(DIRECTORY live555/UsageEnvironment/include/
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/live555/UsageEnvironment
+)
+install(DIRECTORY live555/BasicUsageEnvironment/include/
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/live555/BasicUsageEnvironment
+)
+install(DIRECTORY live555/groupsock/include/
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/live555/groupsock
+)
+install(DIRECTORY live555/liveMedia/include/
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/live555/liveMedia
+)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/live555Config.cmake
               ${CMAKE_CURRENT_BINARY_DIR}/live555ConfigVersion.cmake
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/live555
