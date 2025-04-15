@@ -123,8 +123,6 @@ add_library(
     live555/liveMedia/ByteStreamFileSource.cpp
     live555/liveMedia/ByteStreamMemoryBufferSource.cpp
     live555/liveMedia/ByteStreamMultiFileSource.cpp
-    live555/liveMedia/COPYING
-    live555/liveMedia/COPYING.LESSER
     live555/liveMedia/DeviceSource.cpp
     live555/liveMedia/DigestAuthentication.cpp
     live555/liveMedia/DVVideoFileServerMediaSubsession.cpp
@@ -132,14 +130,12 @@ add_library(
     live555/liveMedia/DVVideoRTPSource.cpp
     live555/liveMedia/DVVideoStreamFramer.cpp
     live555/liveMedia/EBMLNumber.cpp
-    live555/liveMedia/EBMLNumber.hh
     live555/liveMedia/FileServerMediaSubsession.cpp
     live555/liveMedia/FileSink.cpp
     live555/liveMedia/FramedFileSource.cpp
     live555/liveMedia/FramedFilter.cpp
     live555/liveMedia/FramedSource.cpp
     live555/liveMedia/GenericMediaServer.cpp
-    live555/liveMedia/grep
     live555/liveMedia/GSMAudioRTPSink.cpp
     live555/liveMedia/H261VideoRTPSource.cpp
     live555/liveMedia/H263plusVideoFileServerMediaSubsession.cpp
@@ -147,7 +143,6 @@ add_library(
     live555/liveMedia/H263plusVideoRTPSource.cpp
     live555/liveMedia/H263plusVideoStreamFramer.cpp
     live555/liveMedia/H263plusVideoStreamParser.cpp
-    live555/liveMedia/H263plusVideoStreamParser.hh
     live555/liveMedia/H264or5VideoFileSink.cpp
     live555/liveMedia/H264or5VideoRTPSink.cpp
     live555/liveMedia/H264or5VideoStreamDiscreteFramer.cpp
@@ -174,13 +169,10 @@ add_library(
     live555/liveMedia/JPEGVideoSource.cpp
     live555/liveMedia/Locale.cpp
     live555/liveMedia/MatroskaDemuxedTrack.cpp
-    live555/liveMedia/MatroskaDemuxedTrack.hh
     live555/liveMedia/MatroskaFile.cpp
     live555/liveMedia/MatroskaFileParser.cpp
-    live555/liveMedia/MatroskaFileParser.hh
     live555/liveMedia/MatroskaFileServerDemux.cpp
     live555/liveMedia/MatroskaFileServerMediaSubsession.cpp
-    live555/liveMedia/MatroskaFileServerMediaSubsession.hh
     live555/liveMedia/Media.cpp
     live555/liveMedia/MediaSession.cpp
     live555/liveMedia/MediaSink.cpp
@@ -188,22 +180,18 @@ add_library(
     live555/liveMedia/MIKEY.cpp
     live555/liveMedia/MP3ADU.cpp
     live555/liveMedia/MP3ADUdescriptor.cpp
-    live555/liveMedia/MP3ADUdescriptor.hh
     live555/liveMedia/MP3ADUinterleaving.cpp
     live555/liveMedia/MP3ADURTPSink.cpp
     live555/liveMedia/MP3ADURTPSource.cpp
     live555/liveMedia/MP3ADUTranscoder.cpp
     live555/liveMedia/MP3AudioFileServerMediaSubsession.cpp
     live555/liveMedia/MP3AudioMatroskaFileServerMediaSubsession.cpp
-    live555/liveMedia/MP3AudioMatroskaFileServerMediaSubsession.hh
     live555/liveMedia/MP3FileSource.cpp
     live555/liveMedia/MP3Internals.cpp
     live555/liveMedia/MP3Internals.hh
     live555/liveMedia/MP3InternalsHuffman.cpp
-    live555/liveMedia/MP3InternalsHuffman.hh
     live555/liveMedia/MP3InternalsHuffmanTable.cpp
     live555/liveMedia/MP3StreamState.cpp
-    live555/liveMedia/MP3StreamState.hh
     live555/liveMedia/MP3Transcoder.cpp
     live555/liveMedia/MPEG1or2AudioRTPSink.cpp
     live555/liveMedia/MPEG1or2AudioRTPSource.cpp
@@ -222,7 +210,6 @@ add_library(
     live555/liveMedia/MPEG2TransportStreamAccumulator.cpp
     live555/liveMedia/MPEG2TransportStreamDemux.cpp
     live555/liveMedia/MPEG2TransportStreamDemuxedTrack.cpp
-    live555/liveMedia/MPEG2TransportStreamDemuxedTrack.hh
     live555/liveMedia/MPEG2TransportStreamFramer.cpp
     live555/liveMedia/MPEG2TransportStreamFromESSource.cpp
     live555/liveMedia/MPEG2TransportStreamFromPESSource.cpp
@@ -232,7 +219,6 @@ add_library(
     live555/liveMedia/MPEG2TransportStreamParser_PMT.cpp
     live555/liveMedia/MPEG2TransportStreamParser_STREAM.cpp
     live555/liveMedia/MPEG2TransportStreamParser.cpp
-    live555/liveMedia/MPEG2TransportStreamParser.hh
     live555/liveMedia/MPEG2TransportStreamTrickModeFilter.cpp
     live555/liveMedia/MPEG2TransportUDPServerMediaSubsession.cpp
     live555/liveMedia/MPEG4ESVideoRTPSink.cpp
@@ -246,17 +232,13 @@ add_library(
     live555/liveMedia/MPEG4VideoStreamFramer.cpp
     live555/liveMedia/MPEGVideoStreamFramer.cpp
     live555/liveMedia/MPEGVideoStreamParser.cpp
-    live555/liveMedia/MPEGVideoStreamParser.hh
     live555/liveMedia/MultiFramedRTPSink.cpp
     live555/liveMedia/MultiFramedRTPSource.cpp
     live555/liveMedia/OggDemuxedTrack.cpp
-    live555/liveMedia/OggDemuxedTrack.hh
     live555/liveMedia/OggFile.cpp
     live555/liveMedia/OggFileParser.cpp
-    live555/liveMedia/OggFileParser.hh
     live555/liveMedia/OggFileServerDemux.cpp
     live555/liveMedia/OggFileServerMediaSubsession.cpp
-    live555/liveMedia/OggFileServerMediaSubsession.hh
     live555/liveMedia/OggFileSink.cpp
     live555/liveMedia/OnDemandServerMediaSubsession.cpp
     live555/liveMedia/ourMD5.cpp
@@ -269,14 +251,12 @@ add_library(
     live555/liveMedia/RawVideoRTPSink.cpp
     live555/liveMedia/RawVideoRTPSource.cpp
     live555/liveMedia/rtcp_from_spec.c
-    live555/liveMedia/rtcp_from_spec.h
     live555/liveMedia/RTCP.cpp
     live555/liveMedia/RTPInterface.cpp
     live555/liveMedia/RTPSink.cpp
     live555/liveMedia/RTPSource.cpp
     live555/liveMedia/RTSPClient.cpp
     live555/liveMedia/RTSPCommon.cpp
-    live555/liveMedia/RTSPCommon.cpp.new
     live555/liveMedia/RTSPRegisterSender.cpp
     live555/liveMedia/RTSPServer.cpp
     live555/liveMedia/RTSPServerRegister.cpp
@@ -286,7 +266,6 @@ add_library(
     live555/liveMedia/SIPClient.cpp
     live555/liveMedia/SRTPCryptographicContext.cpp
     live555/liveMedia/StreamParser.cpp
-    live555/liveMedia/StreamParser.hh
     live555/liveMedia/StreamReplicator.cpp
     live555/liveMedia/T140TextRTPSink.cpp
     live555/liveMedia/TextRTPSink.cpp
