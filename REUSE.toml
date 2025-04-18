@@ -9,5 +9,5 @@ SPDX-License-Identifier = "FSFAP"
 [[annotations]]
 path = ["live555/**"]
 precedence = "aggregate"
-SPDX-FileCopyrightText = "1996-2024, Live Networks, Inc"
+SPDX-FileCopyrightText = "1996-2025, Live Networks, Inc"
 SPDX-License-Identifier = "LGPL-3.0-or-later"
