@@ -9,10 +9,11 @@
 cmake_minimum_required(VERSION 3.21...3.31)
 project(
     live555_vendor
-    VERSION 2025.1.17
+    VERSION 0.20250117.0
     LANGUAGES C CXX
     DESCRIPTION "multimedia RTSP streaming library"
 )
+set(LIVE555_UPSTREAM_VERSION 2025.1.17)
 
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
@@ -61,7 +62,7 @@ target_include_directories(
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/live555/groupsock/include
             ${CMAKE_CURRENT_SOURCE_DIR}/live555/BasicUsageEnvironment/include
 )
-set_target_properties(UsageEnvironment PROPERTIES SOVERSION ${PROJECT_VERSION})
+set_target_properties(UsageEnvironment PROPERTIES SOVERSION ${LIVE555_UPSTREAM_VERSION})
 
 add_library(
     BasicUsageEnvironment
@@ -84,7 +85,7 @@ target_include_directories(
 )
 target_link_libraries(BasicUsageEnvironment PUBLIC UsageEnvironment)
 set_target_properties(
-    BasicUsageEnvironment PROPERTIES SOVERSION ${PROJECT_VERSION}
+    BasicUsageEnvironment PROPERTIES SOVERSION ${LIVE555_UPSTREAM_VERSION}
 )
 add_library(live555::BasicUsageEnvironment ALIAS BasicUsageEnvironment)
 add_library(
@@ -108,7 +109,9 @@ target_include_directories(
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/live555/groupsock>
 )
 target_link_libraries(groupsock PUBLIC UsageEnvironment)
-set_target_properties(groupsock PROPERTIES SOVERSION ${PROJECT_VERSION})
+set_target_properties(
+    groupsock PROPERTIES SOVERSION ${LIVE555_UPSTREAM_VERSION}
+)
 add_library(live555::groupsock ALIAS groupsock)
 add_library(
     liveMedia
@@ -309,7 +312,9 @@ target_include_directories(
 )
 target_link_libraries(liveMedia PUBLIC groupsock BasicUsageEnvironment)
 target_link_libraries(liveMedia PRIVATE $<TARGET_NAME_IF_EXISTS:OpenSSL::SSL>)
-set_target_properties(liveMedia PROPERTIES SOVERSION ${PROJECT_VERSION})
+set_target_properties(
+    liveMedia PROPERTIES SOVERSION ${LIVE555_UPSTREAM_VERSION}
+)
 add_library(live555::liveMedia ALIAS liveMedia)
 
 if(LIVE555_BUILD_EXECUTABLES)
@@ -336,7 +341,9 @@ if(LIVE555_INSTALL_TARGETS)
         NO_SET_AND_CHECK_MACRO NO_CHECK_REQUIRED_COMPONENTS_MACRO
     )
     write_basic_package_version_file(
-        live555ConfigVersion.cmake COMPATIBILITY ExactVersion
+        live555ConfigVersion.cmake
+        VERSION ${LIVE555_UPSTREAM_VERSION}
+        COMPATIBILITY ExactVersion
     )
     configure_file(live555.pc.in live555.pc @ONLY)
 
