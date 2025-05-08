@@ -44,13 +44,23 @@ else()
     set(LIVE555_OPENSSL_SUPPORT NO)
 endif()
 
+# Detect ABI versions
+file(READ live555/config.linux-with-shared-libraries LIVE555_CONFIG_DATA)
+foreach(lib IN ITEMS UsageEnvironment BasicUsageEnvironment groupsock liveMedia)
+    if(LIVE555_CONFIG_DATA MATCHES "lib${lib}_VERSION_CURRENT=([0-9]+).*lib${lib}_VERSION_AGE=([0-9]+)")
+        math(EXPR ${lib}_SOVERSION "${CMAKE_MATCH_1} - ${CMAKE_MATCH_2}")
+    else()
+        set(${lib}_SOVERSION 0)
+    endif()
+endforeach()
+
 # Targets
 add_library(
     UsageEnvironment
     live555/UsageEnvironment/HashTable.cpp live555/UsageEnvironment/strDup.cpp
     live555/UsageEnvironment/UsageEnvironment.cpp
-    live555/BasicUsageEnvironment/BasicHashTable.cpp
 )
+target_link_options(UsageEnvironment PRIVATE "LINKER:--allow-shlib-undefined")
 target_compile_definitions(
     UsageEnvironment PRIVATE _LARGEFILE_SOURCE=1 _FILE_OFFSET_BITS=64
 )
@@ -62,7 +72,7 @@ target_include_directories(
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/live555/groupsock/include
             ${CMAKE_CURRENT_SOURCE_DIR}/live555/BasicUsageEnvironment/include
 )
-set_target_properties(UsageEnvironment PROPERTIES SOVERSION ${LIVE555_UPSTREAM_VERSION})
+set_target_properties(UsageEnvironment PROPERTIES SOVERSION ${UsageEnvironment_SOVERSION})
 
 add_library(
     BasicUsageEnvironment
@@ -71,6 +81,7 @@ add_library(
     live555/BasicUsageEnvironment/BasicUsageEnvironment.cpp
     live555/BasicUsageEnvironment/BasicUsageEnvironment0.cpp
     live555/BasicUsageEnvironment/DelayQueue.cpp
+    live555/BasicUsageEnvironment/BasicHashTable.cpp
 )
 target_compile_features(BasicUsageEnvironment PRIVATE cxx_std_20)
 target_compile_definitions(
@@ -85,7 +96,7 @@ target_include_directories(
 )
 target_link_libraries(BasicUsageEnvironment PUBLIC UsageEnvironment)
 set_target_properties(
-    BasicUsageEnvironment PROPERTIES SOVERSION ${LIVE555_UPSTREAM_VERSION}
+    BasicUsageEnvironment PROPERTIES SOVERSION ${BasicUsageEnvironment_SOVERSION}
 )
 add_library(live555::BasicUsageEnvironment ALIAS BasicUsageEnvironment)
 add_library(
@@ -110,7 +121,7 @@ target_include_directories(
 )
 target_link_libraries(groupsock PUBLIC UsageEnvironment)
 set_target_properties(
-    groupsock PROPERTIES SOVERSION ${LIVE555_UPSTREAM_VERSION}
+    groupsock PROPERTIES SOVERSION ${groupsock_SOVERSION}
 )
 add_library(live555::groupsock ALIAS groupsock)
 add_library(
@@ -313,7 +324,7 @@ target_include_directories(
 target_link_libraries(liveMedia PUBLIC groupsock BasicUsageEnvironment)
 target_link_libraries(liveMedia PRIVATE $<TARGET_NAME_IF_EXISTS:OpenSSL::SSL>)
 set_target_properties(
-    liveMedia PROPERTIES SOVERSION ${LIVE555_UPSTREAM_VERSION}
+    liveMedia PROPERTIES SOVERSION ${liveMedia_SOVERSION}
 )
 add_library(live555::liveMedia ALIAS liveMedia)
 
