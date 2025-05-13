@@ -1,7 +1,7 @@
 version = 1
 
 [[annotations]]
-path = ["CMakeLists.txt", "live555.pc.in", "live555Config.cmake.in", "package.xml", "README.md"]
+path = ["CMakeLists.txt", "live555.pc.in", "live555Config.cmake.in", "package.xml", "README.md", "CHANGELOG.rst"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2025, Timo Röhling"
 SPDX-License-Identifier = "BSD-1-Clause"
