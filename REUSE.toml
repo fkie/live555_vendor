@@ -4,7 +4,7 @@ version = 1
 path = ["CMakeLists.txt", "live555.pc.in", "live555Config.cmake.in", "package.xml", "README.md"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2025, Timo Röhling"
-SPDX-License-Identifier = "FSFAP"
+SPDX-License-Identifier = "BSD-1-Clause"
 
 [[annotations]]
 path = ["live555/**"]
