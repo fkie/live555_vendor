@@ -24,11 +24,11 @@
 cmake_minimum_required(VERSION 3.21...3.31)
 project(
     live555_vendor
-    VERSION 0.20250424.0
+    VERSION 0.20250508.0
     LANGUAGES C CXX
     DESCRIPTION "multimedia RTSP streaming library"
 )
-set(LIVE555_UPSTREAM_VERSION 2025.4.24)
+set(LIVE555_UPSTREAM_VERSION 2025.5.8)
 
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
@@ -75,7 +75,9 @@ add_library(
     live555/UsageEnvironment/HashTable.cpp live555/UsageEnvironment/strDup.cpp
     live555/UsageEnvironment/UsageEnvironment.cpp
 )
-target_link_options(UsageEnvironment PRIVATE "LINKER:--allow-shlib-undefined")
+if(NOT WIN32)
+    target_link_options(UsageEnvironment PRIVATE "LINKER:--allow-shlib-undefined")
+endif()
 target_compile_definitions(
     UsageEnvironment PRIVATE _LARGEFILE_SOURCE=1 _FILE_OFFSET_BITS=64
 )
