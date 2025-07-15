@@ -24,11 +24,11 @@
 cmake_minimum_required(VERSION 3.21...3.31)
 project(
     live555_vendor
-    VERSION 0.20250508.0
+    VERSION 0.20250710.0
     LANGUAGES C CXX
     DESCRIPTION "multimedia RTSP streaming library"
 )
-set(LIVE555_UPSTREAM_VERSION 2025.5.8)
+set(LIVE555_UPSTREAM_VERSION 2025.7.10)
 
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
