@@ -2,8 +2,8 @@
 Changelog for package live555_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.20250710.0 (2025-07-15)
+-------------------------
 * Update to live555 version 2025.07.10
 * Contributors: Timo Röhling
 
