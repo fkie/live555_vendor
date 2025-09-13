@@ -330,7 +330,7 @@ target_compile_definitions(
     liveMedia
     PRIVATE SOCKLEN_T=socklen_t _LARGEFILE_SOURCE=1 _FILE_OFFSET_BITS=64
             $<$<NOT:$<TARGET_EXISTS:OpenSSL::SSL>>:NO_OPENSSL=1>
-            $<$<BOOL:LIVE555_ALLOW_SERVER_PORT_REUSE>:ALLOW_SERVER_PORT_REUSE=1>
+            $<$<BOOL:${LIVE555_ALLOW_SERVER_PORT_REUSE}>:ALLOW_SERVER_PORT_REUSE=1>
 )
 target_include_directories(
     liveMedia
