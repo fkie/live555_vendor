@@ -2,6 +2,12 @@
 Changelog for package live555_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Update to live555 version 2025.09.17
+* Fix generator expression for LIVE555_ALLOW_SERVER_PORT_REUSE
+* Contributors: Timo Röhling
+
 0.20250719.0 (2025-07-30)
 -------------------------
 * Update to live555 version 2025.07.19
