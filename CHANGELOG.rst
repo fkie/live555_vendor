@@ -2,8 +2,8 @@
 Changelog for package live555_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.20251106.0 (2025-12-16)
+-------------------------
 * Update to live555 version 2025.11.06
 * Make SONAME detection a little bit more robust
 * Contributors: Timo Röhling
